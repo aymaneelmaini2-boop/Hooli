@@ -1,0 +1,27 @@
+name: Release video
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  video:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - uses: DanielFidalgo/kineto@v0.1.6
+        with:
+          changelog: "true"
+          title: "Hooli"
+          output: dist/release.mp4
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-video
+          path: dist/release.mp4
